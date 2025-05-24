@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  jupyter:
+    image: continuumio/miniconda3
+    container_name: miniconda_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/opt/notebooks
+      - ./jupyter_config:/root/.jupyter
+    command: >
+      /bin/bash -c "
+      /opt/conda/bin/conda install jupyter -y --quiet && \
+      mkdir -p /opt/notebooks && \
+      /opt/conda/bin/jupyter notebook \
+      --notebook-dir=/opt/notebooks \
+      --ip=0.0.0.0 \
+      --port=8888 \
+      --no-browser \
+      --allow-root \
+      --NotebookApp.default_url='/tree'"
